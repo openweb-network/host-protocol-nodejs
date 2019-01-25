@@ -1,0 +1,5 @@
+{
+    "rpc": "http://localhost:8545",
+    "host_port": 15678,
+    "debug": 0
+}

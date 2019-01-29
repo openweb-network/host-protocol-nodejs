@@ -127,7 +127,7 @@ var _loadMeta = () => {
     try {
         let contractJsonPath = __dirname+"/contract.json";
         const contractJson= JSON.parse(fs.readFileSync(contractJsonPath));
-        const contractAddr = '0x725374b9671f3f2d326359750f9f2da4a5fe5d08';
+        const contractAddr = '0x68fcb1f0d07000a84b569ccb647dd8fe320cddaa';
         
         owContract = new web3.eth.Contract(contractJson, contractAddr);
     } catch (err) {

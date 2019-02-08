@@ -427,7 +427,11 @@ var _validateRequest = (req, res, host, next) => {
             }
             
         } else {
-            go = false;
+            if( host == 'openweb.ow' ){
+                next();
+            } else {
+                go = false;
+            }
         }
     } else {
         go = false;
@@ -481,7 +485,8 @@ var initHttpServer = () => {
             if(_checkValidDomain(host)){
                 
                 if(isLocalRequest(ip)){
-                    next();
+//                    next();
+                    _validateRequest(req, res, host, next);
                 } else {
                     _validateRequest(req, res, host, next);
                 }

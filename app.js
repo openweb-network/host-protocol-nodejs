@@ -416,7 +416,6 @@ var _validateRequest = (req, res, host, next) => {
                     (_tmpDt["_usr"][parentAddress] > 0 
                     && _tmpDt["_usr"][parentAddress] < _time 
                     || _tmpDt["_usr"][parentAddress][_timeV1] > userReqLimit) 
-                    && host != 'openweb.ow'
                 ){
                     httpCode = 402;
                     go = false;
@@ -427,11 +426,7 @@ var _validateRequest = (req, res, host, next) => {
             }
             
         } else {
-            if( host == 'openweb.ow' ){
-                next();
-            } else {
-                go = false;
-            }
+            go = false;
         }
     } else {
         go = false;
@@ -485,10 +480,13 @@ var initHttpServer = () => {
             if(_checkValidDomain(host)){
                 
                 if(isLocalRequest(ip)){
-//                    next();
-                    _validateRequest(req, res, host, next);
+                    next();
                 } else {
-                    _validateRequest(req, res, host, next);
+                    if( host == 'openweb.ow' ){
+                        next();
+                    } else {
+                        _validateRequest(req, res, host, next);
+                    }
                 }
             } else {
                 res.sendStatus(400);

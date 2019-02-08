@@ -150,7 +150,7 @@ var _loadMeta = () => {
 var _removeData = (domain) => {
     let dirPath = hostDB+"/"+domain;
     printMsg("Website Removed ... ["+domain+"]");
-//	fs.removeSync(dirPath);
+	fs.removeSync(dirPath);
 };
 
 var storeWebsite = (domain, name, data) => {
@@ -206,6 +206,9 @@ var _getWebPath = (domain, path) => {
 };
 
 var _checkValidDomain = (domain) => {
+    if(!domain){
+        return false;
+    }
     if(domain.length <= 16){
         if(domain.includes(".")){
             return domain.split(".", 2)[1] == "ow";
@@ -501,7 +504,7 @@ var initHttpServer = () => {
     app.post('/check/:domain', (req, res) => {
         let domain = req.params.domain;
         
-        if(!_checkValidDomain){
+        if(!_checkValidDomain(domain)){
             res.sendStatus(400);
         }
         
@@ -550,7 +553,7 @@ var initHttpServer = () => {
     app.put('/check/:domain', (req, res) => {
         let domain = req.params.domain;
         
-        if(!_checkValidDomain){
+        if(!_checkValidDomain(domain)){
             res.sendStatus(400);
         }
         
@@ -645,11 +648,11 @@ function _processWebsite(){
     }
     
     if(webGetIndex > webProcessIndex){
-        printMsg("Fethching Website Updates... ["+webProcessIndex+"]");
-        
         if(!_tmpDt["_webPr"]){ _tmpDt["_webPr"] = {}; }
         
         if(!_tmpDt["_webPr"][webProcessIndex]){
+            printMsg("Fethching Website Updates... ["+webProcessIndex+"]");
+            
             _tmpDt["_webPr"] = {};
             _tmpDt["_webPr"][webProcessIndex] = 1;
             

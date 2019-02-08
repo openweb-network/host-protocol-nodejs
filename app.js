@@ -405,6 +405,7 @@ var _validateRequest = (req, res, host, next) => {
                 owContract.methods.users(parentAddress).call(
                     function(error, result){
                         var _expity_time = parseInt(result.expiry_time);
+                        
                         if(_expity_time == 0){ _expity_time = 1; }
                         _tmpDt["_usr"][parentAddress] = _expity_time;
                         _tmpDt["_usrCount"][parentAddress][_timeV1] = _tmpDt["_usr"][parentAddress][_timeV1] + 1;
@@ -412,9 +413,9 @@ var _validateRequest = (req, res, host, next) => {
                 );
 
                 if(
-                    _tmpDt["_usr"][parentAddress] > 0 
+                    (_tmpDt["_usr"][parentAddress] > 0 
                     && _tmpDt["_usr"][parentAddress] < _time 
-                    && _tmpDt["_usr"][parentAddress][_timeV1] > userReqLimit 
+                    || _tmpDt["_usr"][parentAddress][_timeV1] > userReqLimit) 
                     && host != 'openweb.ow'
                 ){
                     httpCode = 402;
@@ -480,9 +481,9 @@ var initHttpServer = () => {
             if(_checkValidDomain(host)){
                 
                 if(isLocalRequest(ip)){
-                    _validateRequest(req, res, host, next);
-                } else {
                     next();
+                } else {
+                    _validateRequest(req, res, host, next);
                 }
             } else {
                 res.sendStatus(400);

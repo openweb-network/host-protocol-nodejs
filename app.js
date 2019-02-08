@@ -447,7 +447,8 @@ var initHttpServer = () => {
 	app.use(bodyParser.urlencoded({ extended: true }));
 	app.use(function (req, res, next) {
 		res.setHeader('Access-Control-Allow-Origin', '*');
-		res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
+		res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+        res.setHeader('Access-Control-Allow-Headers', 'openweb-parantsignature, openweb-signature, openweb-requestTime');
         
         if(_meta["wallet"]){
             var parentSign = "";
@@ -469,12 +470,13 @@ var initHttpServer = () => {
         let host = url_parts.host;
         let path = url_parts.path;
         
+        
         if(req.method == "PUT" && !isLocalRequest(ip)){
             res.sendStatus(405);
-        } else if(req.method == "POST"){
+        } else if(req.method == "POST" || req.method == "OPTIONS"){
             next();
         } else {
-
+            
             if(_checkValidDomain(host)){
                 
                 if(isLocalRequest(ip)){
@@ -516,6 +518,19 @@ var initHttpServer = () => {
     });
     
     app.post('/ping', (req, res) => {
+        let totalWebsites = 0;
+        if(_meta["totalwebsites"]){
+            totalWebsites = _meta["totalwebsites"];
+        }
+        
+        let dt = {
+            "msg": "pong",
+            "total_websites": totalWebsites
+        }
+        res.json(dt);
+    });
+    
+    app.options('/ping', (req, res) => {
         let totalWebsites = 0;
         if(_meta["totalwebsites"]){
             totalWebsites = _meta["totalwebsites"];

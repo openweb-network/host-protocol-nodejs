@@ -376,7 +376,7 @@ var _validateRequest = (req, res, host, next) => {
     let reqTime = req.get("openweb-requestTime");
     let reqTimeStamp = parseInt(reqTime);
     
-    if((_time - reqTimeStamp) < 5){
+    if((_time - reqTimeStamp) < 3600){
         if(userSign && parentSign){
             let signAddress = web3.eth.accounts.recover(reqTime, userSign);
             

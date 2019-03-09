@@ -703,6 +703,8 @@ function _processWebsite(){
                             } else if(_currVersion < _version){
                                 printMsg("Processing Website Meta ... ["+domain+"]");
                                 _indexWebsite(webProcessIndex, domainMeta, "tmp");
+                            } else {
+                                _setMeta("_webprocessed", webProcessIndex);
                             }
                         }
                     );

@@ -24,8 +24,8 @@ let _config = {};
 let _meta = {};
 let _tmpDt = {};
 
-let websiteFilesLimit = 20;
-let websiteSizeLimit = 512;
+let websiteFilesLimit = 100;
+let websiteSizeLimit = 20480;
 let userReqLimit = 20000;
 
 

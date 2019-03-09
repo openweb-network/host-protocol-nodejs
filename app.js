@@ -720,12 +720,6 @@ function _loadLimits(){
             websiteFilesLimit = parseInt(dt);
         }
     );
-    
-    owContract.methods.websiteSizeLimit().call(
-        function(error, dt){
-            websiteSizeLimit = parseInt(dt);
-        }
-    );
 }
 
 function _initAddress(){

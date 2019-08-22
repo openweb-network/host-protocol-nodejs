@@ -26,7 +26,7 @@ let _tmpDt = {};
 
 let websiteFilesLimit = 50;
 let websiteSizeLimit = 20480;
-let userReqLimit = 20000;
+let userReqLimit = 200;
 
 
 
